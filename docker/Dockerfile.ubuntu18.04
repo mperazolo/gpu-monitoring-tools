@@ -6,7 +6,7 @@ COPY . .
 
 RUN make binary check-format
 
-FROM nvidia/cuda:11.0-base-ubuntu18.04
+FROM nvidia/cuda-ppc64le:11.0-base-ubuntu18.04
 LABEL io.k8s.display-name="NVIDIA DCGM Exporter"
 
 COPY --from=builder /go/src/github.com/NVIDIA/gpu-monitoring-tools/dcgm-exporter /usr/bin/
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     wget && \
     rm -rf /var/lib/apt/lists/* && \
-    wget --no-check-certificate https://developer.download.nvidia.com/compute/redist/dcgm/${DCGM_VERSION}/DEBS/datacenter-gpu-manager_${DCGM_VERSION}_amd64.deb && \
+    wget --no-check-certificate https://developer.download.nvidia.com/compute/redist/dcgm/${DCGM_VERSION}/DEBS/datacenter-gpu-manager_${DCGM_VERSION}_ppc64el.deb && \
     dpkg -i datacenter-gpu-manager_*.deb && \
     rm -f datacenter-gpu-manager_*.deb
 
